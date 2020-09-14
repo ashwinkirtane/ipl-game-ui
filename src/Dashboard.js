@@ -35,14 +35,10 @@ const getTopRankers = () => {
   method: 'GET', // *GET, POST, PUT, DELETE, etc.
   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
   json: true
-}).then((response) => {
-  if (response.status != 200)
-  {
-    
-  }
-  else {
-    console.log('Data {}', response.json().then().then().finally());   
-  }
+}).then(function(response) {
+  return response.json();
+}).then(function(parsedJson) {
+  console.log('Parsed json{} ', parsedJson);
 }); 
 }
 
