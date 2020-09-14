@@ -13,6 +13,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import image from './iplll.jpg';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+import { useHistory } from "react-router-dom";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -25,7 +29,9 @@ function Copyright() {
     </Typography>
   );
 }
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -59,9 +65,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
-  
+  let history = useHistory();
   const [username, setUsername] = React.useState();
   const [password, setPassword] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+  
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -72,11 +87,16 @@ export default function SignInSide() {
   const validateLogin = () => {
       fetch(`http://localhost:8090/fun/login/${username}/${password}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      mode: 'no-cors', // no-cors, *cors, same-origin
       cache: 'no-cache' // *default, no-cache, reload, force-cache, only-if-cached
-    }).then((response) => {console.log('Respose {}', response.status)});
-
-    
+    }).then((response) => {
+      if (response.status != 200)
+      {
+        setOpen(true);
+      }
+      else {
+        history.push("/dashboard");
+      }
+    }); 
   }
   return (
     <Grid container component="main" className={classes.root}>
@@ -137,6 +157,9 @@ export default function SignInSide() {
           </form>
         </div>
       </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity="error">Login Failed!</Alert>
+      </Snackbar>
     </Grid>
   );
 }

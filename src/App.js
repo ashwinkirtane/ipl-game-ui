@@ -8,7 +8,7 @@ function App() {
   return (
     <main>
         <Switch>
-            <PrivateRoute path="/" exact>
+            <PrivateRoute path="/dashboard" exact>
                 <Dashboard></Dashboard>
             </PrivateRoute>
             <Route path="/login">

@@ -18,11 +18,35 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
 // import { mainListItems, secondaryListItems } from './listItems';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
 
+const getTopRankers = () => {
+  fetch('http://localhost:8090/fun/getRank', {
+  method: 'GET', // *GET, POST, PUT, DELETE, etc.
+  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  json: true
+}).then((response) => {
+  if (response.status != 200)
+  {
+    
+  }
+  else {
+    console.log('Data {}', response.json().then().then().finally());   
+  }
+}); 
+}
+
+getTopRankers();
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -127,6 +151,17 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  function createData(name, points) {
+    return { name, points};
+  }
+
+  const rows = [
+    createData('Frozen yoghurt', 159),
+    createData('Ice cream sandwich', 237),
+  ];
+
+  
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -159,13 +194,36 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                {/* <Chart /> */}
+                {/* <Chart /> */}             
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 {/* <Deposits /> */}
+              
+                <TableContainer component={Paper}>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Points</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell component="th" scope="row">
+                            {row.name}
+                          </TableCell>
+                          <TableCell align="right">{row.calories}</TableCell>
+                          <TableCell align="right">{row.fat}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+             
               </Paper>
             </Grid>
             {/* Recent Orders */}
