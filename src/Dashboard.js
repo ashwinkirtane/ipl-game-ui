@@ -24,25 +24,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/Inbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
 
-// import { mainListItems, secondaryListItems } from './listItems';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
-
-const getTopRankers = () => {
-  fetch('http://localhost:8090/fun/getRank', {
-  method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-  json: true
-}).then(function(response) {
-  return response.json();
-}).then(function(parsedJson) {
-  console.log('Parsed json{} ', parsedJson);
-}); 
-}
-
-getTopRankers();
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -54,6 +41,18 @@ function Copyright() {
     </Typography>
   );
 }
+
+function getCurrentDate(){
+  const separator='-';
+  let newDate = new Date()
+  let date = newDate.getDate();
+  let month = newDate.getMonth() + 1;
+  let year = newDate.getFullYear();
+  
+  return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date}`
+  }
+
+
 
 const drawerWidth = 240;
 
@@ -80,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: '100%',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -137,6 +136,45 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  
+  const [ranks, setRanks] = React.useState([]);
+
+  React.useEffect(() => {
+    const getTopRankers = () => {
+        fetch('http://localhost:8090/fun/getRank', {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        json: true
+    }).then(function(response) {
+        return response.json();
+    }).then(function(parsedJson) {
+      console.log('Parsed JSON {}', parsedJson);  
+      setRanks(parsedJson);
+    }); 
+    }
+    getTopRankers();
+}, [])
+  
+
+  React.useEffect(() => {
+  const getTodaysMatch = () => {
+      const todaysdate = getCurrentDate();
+      console.log('Todays date {}', todaysdate);
+      fetch(`http://localhost:8090/fun/match/date/${todaysdate}`, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      json: true
+  }).then(function(response) {
+      return response.json();
+  }).then(function(parsedJson) {
+      console.log('Matches {}', parsedJson);
+  }); 
+  }
+  getTodaysMatch();
+}, [])
+  
+
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -147,16 +185,13 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  function createData(name, points) {
-    return { name, points};
-  }
-
-  const rows = [
-    createData('Frozen yoghurt', 159),
-    createData('Ice cream sandwich', 237),
-  ];
-
   
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
+
 
   return (
     <div className={classes.root}>
@@ -190,7 +225,25 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                {/* <Chart /> */}             
+                {/* <Chart /> */}     
+            <div className={classes.root}>
+              <List component="nav" aria-label="secondary mailbox folder">
+                <ListItem
+                  button
+                  selected={selectedIndex === 2}
+                  onClick={(event) => handleListItemClick(event, 2)}
+                >
+                  <ListItemText primary="Rajasthan Royals" />
+                </ListItem>
+                <ListItem
+                  button
+                  selected={selectedIndex === 3}
+                  onClick={(event) => handleListItemClick(event, 3)}
+                >
+                  <ListItemText primary="Chennai Super Kings" />
+                </ListItem>
+              </List>
+            </div>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
@@ -207,13 +260,12 @@ export default function Dashboard() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
+                      {ranks.map((row) => (
                         <TableRow key={row.name}>
                           <TableCell component="th" scope="row">
                             {row.name}
                           </TableCell>
-                          <TableCell align="right">{row.calories}</TableCell>
-                          <TableCell align="right">{row.fat}</TableCell>
+                          <TableCell align="right">{row.points}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
