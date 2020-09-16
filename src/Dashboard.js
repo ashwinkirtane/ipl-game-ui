@@ -29,7 +29,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
-
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -133,12 +134,15 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  buttonGroup: {
+    display: 'flex',
+    justifyContent: 'center',
+  }
 }));
 
 export default function Dashboard() {
   
   const [ranks, setRanks] = React.useState([]);
-
   React.useEffect(() => {
     const getTopRankers = () => {
         fetch('http://localhost:8090/fun/getRank', {
@@ -148,7 +152,6 @@ export default function Dashboard() {
     }).then(function(response) {
         return response.json();
     }).then(function(parsedJson) {
-      console.log('Parsed JSON {}', parsedJson);  
       setRanks(parsedJson);
     }); 
     }
@@ -156,25 +159,24 @@ export default function Dashboard() {
 }, [])
   
 
+  const [matches, setMatches] = React.useState([]);
   React.useEffect(() => {
   const getTodaysMatch = () => {
       const todaysdate = getCurrentDate();
-      console.log('Todays date {}', todaysdate);
+      //console.log('Todays date {}', todaysdate);
       fetch(`http://localhost:8090/fun/match/date/${todaysdate}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       json: true
   }).then(function(response) {
       return response.json();
-  }).then(function(parsedJson) {
-      console.log('Matches {}', parsedJson);
+  }).then(function(parsedJson) { 
+    setMatches(parsedJson.matches);
   }); 
   }
   getTodaysMatch();
 }, [])
   
-
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -192,7 +194,9 @@ export default function Dashboard() {
     setSelectedIndex(index);
   };
 
-
+  const currentDate = getCurrentDate();
+  console.log('Matches{}', matches);
+  console.log('Ranks{}', ranks);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -225,25 +229,20 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                {/* <Chart /> */}     
-            <div className={classes.root}>
-              <List component="nav" aria-label="secondary mailbox folder">
-                <ListItem
-                  button
-                  selected={selectedIndex === 2}
-                  onClick={(event) => handleListItemClick(event, 2)}
-                >
-                  <ListItemText primary="Rajasthan Royals" />
-                </ListItem>
-                <ListItem
-                  button
-                  selected={selectedIndex === 3}
-                  onClick={(event) => handleListItemClick(event, 3)}
-                >
-                  <ListItemText primary="Chennai Super Kings" />
-                </ListItem>
-              </List>
-            </div>
+                {/* <Chart /> */}    
+                <h2>{currentDate}</h2> 
+                <ButtonGroup disableElevation variant="contained" color="primary" className={classes.buttonGroup}>
+                  {matches.map((row) => (
+                        <Button>{row.team1}</Button>
+                        
+                      ))}
+                  {matches.map((row) => (
+                        <Button>{row.team2}</Button>
+                        
+                      ))}
+
+                
+                </ButtonGroup>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
