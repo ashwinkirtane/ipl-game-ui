@@ -8,7 +8,7 @@ function App() {
   return (
     <main>
         <Switch>
-            <PrivateRoute path="/dashboard" exact>
+            <PrivateRoute path="/" exact>
                 <Dashboard></Dashboard>
             </PrivateRoute>
             <Route path="/login">
@@ -20,11 +20,14 @@ function App() {
 }
 
 function PrivateRoute({ children, ...rest }) {
+  const username = sessionStorage.getItem('username');
+  const password = sessionStorage.getItem('password');
+  
   return (
     <Route
       {...rest}
       render={({ location }) =>
-         true ? (
+      (username &&  password) ? (
           children
         ) : (
           <Redirect

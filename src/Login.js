@@ -3,11 +3,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -17,18 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 import { useHistory } from "react-router-dom";
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -89,12 +75,14 @@ export default function SignInSide() {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache' // *default, no-cache, reload, force-cache, only-if-cached
     }).then((response) => {
-      if (response.status != 200)
+      if (response.status !== 200)
       {
         setOpen(true);
       }
       else {
-        history.push("/dashboard");
+        sessionStorage.setItem('username', username)
+        sessionStorage.setItem('password', password)
+        history.push("/");
       }
     }); 
   }
