@@ -20,9 +20,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -126,9 +130,12 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
-  buttonGroup: {
+  buttonClass: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    fontStyle: 'italic',
+    margin: '10px 0'
   }
 }));
 
@@ -168,15 +175,76 @@ export default function Dashboard() {
   }
   getTodaysMatch();
 }, [])
-  
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
+
+const [userInfo, setUserInfo] = React.useState([]);
+React.useEffect(() => {
+const getUserInfo = () => {
+    fetch(`http://localhost:8090/fun/${sessionStorage.username}`, {
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    json: true
+}).then(function(response) {
+    return response.json();
+}).then(function(parsedJson) { 
+  console.log('User details {}', parsedJson);
+  setUserInfo(parsedJson.users);
+}); 
+}
+getUserInfo();
+}, [])
+
+const [open, setOpen] = React.useState(false);
+const [successOpen, setSuccessOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSuccessOpen(false);
     setOpen(false);
   };
+
+function placeABet(matchId, placedOn) {
+    fetch('http://localhost:8090/fun/bets', {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    json: true,
+    body: JSON.stringify({
+      "betInfo":{
+          "userId": userInfo.userId,
+          "matchId": matchId,
+          "betPlacedOn": placedOn
+      }
+  })
+  }).then((response) => {
+    if (response.status!==200) {
+      setOpen(true)
+    }
+    else{
+      setSuccessOpen(true)
+    }
+
+  })
+}
+
+// function getTeamFullName(teamCode) {
+//   fetch(`http://localhost:8090/fun/team/${teamCode}`, {
+//   method: 'GET', // *GET, POST, PUT, DELETE, etc.
+//   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+//   json: true
+// }).then((response) => {
+//   if (response.status!==200) {
+//     debugger;
+//     console.log('Team Name {}', response.body);
+//   }
+//   else{
+//     debugger;
+//     console.log('Team Name {}', response.body);
+//   }
+
+// })
+// }
+  const classes = useStyles();
+  
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   
@@ -187,30 +255,20 @@ export default function Dashboard() {
   };
 
   const currentDate = getCurrentDate();
-  console.log('Matches{}', matches);
-  console.log('Ranks{}', ranks);
+
+  console.log('User info {}', userInfo);
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
+
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+           Welcome, {userInfo.length && userInfo[0].fullName}! Your home team is {userInfo.length && userInfo[0].homeTeamCode}
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={1} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}  align="right">
+           Your Points: {userInfo.length && userInfo[0].totalPoints}
+          </Typography>
         </Toolbar>
       </AppBar>
       
@@ -219,64 +277,63 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={classes.paper}>
                 {/* <Chart /> */}    
-                <h2>{currentDate}</h2> 
-                <ButtonGroup disableElevation variant="contained" color="primary" className={classes.buttonGroup}>
-                  {matches.map((row) => (
-                        <Button>{row.team1}</Button>
-                        
-                      ))}
-                  {matches.map((row) => (
-                        <Button>{row.team2}</Button>
-                        
-                      ))}
-
-                
-                </ButtonGroup>
+                {matches.map((match) => (
+                    <div className={classes.buttonClass}>
+                    <Button variant="contained" color="primary" onClick = {() => placeABet(match.id, match.team1)}>{match.team1}</Button>
+                    <span>vs</span> 
+                    <Button variant="contained" color="primary" onClick = {() => placeABet(match.id, match.team2)}>{match.team2}</Button>
+                  </div>
+                ) )}
               </Paper>
             </Grid>
             {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
+            
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={classes.paper}>
                 {/* <Deposits /> */}
-              
                 <TableContainer component={Paper}>
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Points</TableCell>
+                      <TableCell ><b>RANK</b></TableCell>
+                        <TableCell ><b>NAME</b></TableCell>
+                        <TableCell ><b>HOME TEAM</b></TableCell>
+                        <TableCell align="right" ><b>POINTS</b></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {ranks.map((row) => (
+                      {ranks.map((row,index) => (
                         <TableRow key={row.name}>
-                          <TableCell component="th" scope="row">
-                            {row.name}
-                          </TableCell>
+                          <TableCell>{index+1}</TableCell>
+                          <TableCell align="left" >{row.name}</TableCell>
+                          <TableCell>getTeamFullName(row.homeTeam)</TableCell>
                           <TableCell align="right">{row.points}</TableCell>
+
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
-                </TableContainer>
-             
+                </TableContainer>            
               </Paper>
             </Grid>
+            
             {/* Recent Orders */}
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Paper className={classes.paper}>
-                {/* <Orders /> */}
               </Paper>
-            </Grid>
+            </Grid> */}
           </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
         </Container>
       </main>
+      <Snackbar open={successOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity="success">Bet Placed!</Alert>
+      </Snackbar>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity="error">There was an error</Alert>
+      </Snackbar>
     </div>
   );
 }
