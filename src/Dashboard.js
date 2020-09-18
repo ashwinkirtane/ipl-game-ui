@@ -177,6 +177,7 @@ export default function Dashboard() {
 }, [])
 
 const [userInfo, setUserInfo] = React.useState([]);
+const [fullTeamName, setFullTeamName] = React.useState('');
 React.useEffect(() => {
 const getUserInfo = () => {
     fetch(`http://localhost:8090/fun/${sessionStorage.username}`, {
@@ -188,6 +189,7 @@ const getUserInfo = () => {
 }).then(function(parsedJson) { 
   console.log('User details {}', parsedJson);
   setUserInfo(parsedJson.users);
+  setFullTeamName(parsedJson.teamName);
 }); 
 }
 getUserInfo();
@@ -204,17 +206,12 @@ const [successOpen, setSuccessOpen] = React.useState(false);
   };
 
 function placeABet(matchId, placedOn) {
-    fetch('http://localhost:8090/fun/bets', {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    console.log('User Info{}', userInfo);
+    //debugger;
+    fetch(`http://localhost:8090/fun/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    json: true,
-    body: JSON.stringify({
-      "betInfo":{
-          "userId": userInfo.userId,
-          "matchId": matchId,
-          "betPlacedOn": placedOn
-      }
-  })
+    //mode: 'no-cors',
   }).then((response) => {
     if (response.status!==200) {
       setOpen(true)
@@ -226,23 +223,6 @@ function placeABet(matchId, placedOn) {
   })
 }
 
-// function getTeamFullName(teamCode) {
-//   fetch(`http://localhost:8090/fun/team/${teamCode}`, {
-//   method: 'GET', // *GET, POST, PUT, DELETE, etc.
-//   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-//   json: true
-// }).then((response) => {
-//   if (response.status!==200) {
-//     debugger;
-//     console.log('Team Name {}', response.body);
-//   }
-//   else{
-//     debugger;
-//     console.log('Team Name {}', response.body);
-//   }
-
-// })
-// }
   const classes = useStyles();
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -309,7 +289,7 @@ function placeABet(matchId, placedOn) {
                         <TableRow key={row.name}>
                           <TableCell>{index+1}</TableCell>
                           <TableCell align="left" >{row.name}</TableCell>
-                          <TableCell>getTeamFullName(row.homeTeam)</TableCell>
+                          <TableCell>{row.homeTeam}</TableCell>
                           <TableCell align="right">{row.points}</TableCell>
 
                         </TableRow>
@@ -328,10 +308,10 @@ function placeABet(matchId, placedOn) {
           </Grid>
         </Container>
       </main>
-      <Snackbar open={successOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={successOpen} autoHideDuration={600} onClose={handleClose}>
       <Alert onClose={handleClose} severity="success">Bet Placed!</Alert>
       </Snackbar>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={800} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error">There was an error</Alert>
       </Snackbar>
     </div>
