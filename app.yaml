@@ -1,7 +1,7 @@
-env: standard
+service: ipl-2020-rps
 runtime: nodejs12
-service: app-engine-ipl
-
+manual_scaling:
+    instances: 2
 handlers:
   - url: /static
     static_dir: build/static
