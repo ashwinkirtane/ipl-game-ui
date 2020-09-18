@@ -144,7 +144,7 @@ export default function Dashboard() {
   const [ranks, setRanks] = React.useState([]);
   React.useEffect(() => {
     const getTopRankers = () => {
-        fetch('http://localhost:8090/fun/getRank', {
+        fetch('https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/getRank', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         json: true
@@ -163,7 +163,7 @@ export default function Dashboard() {
   const getTodaysMatch = () => {
       const todaysdate = getCurrentDate();
       //console.log('Todays date {}', todaysdate);
-      fetch(`http://localhost:8090/fun/match/date/${todaysdate}`, {
+      fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/match/date/${todaysdate}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       json: true
@@ -180,7 +180,7 @@ const [userInfo, setUserInfo] = React.useState([]);
 const [fullTeamName, setFullTeamName] = React.useState('');
 React.useEffect(() => {
 const getUserInfo = () => {
-    fetch(`http://localhost:8090/fun/${sessionStorage.username}`, {
+    fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/${sessionStorage.username}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     json: true
@@ -208,7 +208,7 @@ const [successOpen, setSuccessOpen] = React.useState(false);
 function placeABet(matchId, placedOn) {
     console.log('User Info{}', userInfo);
     //debugger;
-    fetch(`http://localhost:8090/fun/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
+    fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //mode: 'no-cors',
