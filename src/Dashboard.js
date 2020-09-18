@@ -162,7 +162,7 @@ export default function Dashboard() {
   React.useEffect(() => {
   const getTodaysMatch = () => {
       const todaysdate = getCurrentDate();
-      //console.log('Todays date {}', todaysdate);
+      
       fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/match/date/${todaysdate}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -187,7 +187,6 @@ const getUserInfo = () => {
 }).then(function(response) {
     return response.json();
 }).then(function(parsedJson) { 
-  console.log('User details {}', parsedJson);
   setUserInfo(parsedJson.users);
   setFullTeamName(parsedJson.teamName);
 }); 
@@ -206,8 +205,7 @@ const [successOpen, setSuccessOpen] = React.useState(false);
   };
 
 function placeABet(matchId, placedOn) {
-    console.log('User Info{}', userInfo);
-    //debugger;
+   
     fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -236,7 +234,7 @@ function placeABet(matchId, placedOn) {
 
   const currentDate = getCurrentDate();
 
-  console.log('User info {}', userInfo);
+ 
   return (
     <div className={classes.root}>
       <CssBaseline />
