@@ -49,6 +49,7 @@ function getCurrentDate(){
   return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date}`
   }
 
+  
 
 
 const drawerWidth = 240;
@@ -90,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    fontSize: 'smaller'
   },
   drawerPaper: {
     position: 'relative',
@@ -196,13 +198,33 @@ getUserInfo();
 
 const [open, setOpen] = React.useState(false);
 const [successOpen, setSuccessOpen] = React.useState(false);
+const [invalidTime, setInvalidTimeOpen] = React.useState(false);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setSuccessOpen(false);
     setOpen(false);
+    setInvalidTimeOpen(false);
   };
+
+function getCurrentTime(){
+    const separator=':';
+    let newDate = new Date()
+    let hrs = newDate.getHours().toString();
+    let mins = newDate.getMinutes().toString();
+    let secs = newDate.getSeconds().toString();
+    return hrs+separator+mins+separator+secs;
+    }
+
+    function isValidBettingTime() {
+      if (getCurrentTime()> '18:45:00' && getCurrentTime() < '23:59:59') {
+        setInvalidTimeOpen(true);
+        return false;
+      }
+      return true;
+    }
+
 
 function placeABet(matchId, placedOn) {
    
@@ -234,7 +256,6 @@ function placeABet(matchId, placedOn) {
 
   const currentDate = getCurrentDate();
 
- 
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -260,9 +281,9 @@ function placeABet(matchId, placedOn) {
                 {/* <Chart /> */}    
                 {matches.map((match) => (
                     <div className={classes.buttonClass}>
-                    <Button variant="contained" color="primary" onClick = {() => placeABet(match.id, match.team1)}>{match.team1}</Button>
+                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime() ? placeABet(match.id, match.team1) : setInvalidTimeOpen(true)}>{match.team1}</Button>
                     <span>vs</span> 
-                    <Button variant="contained" color="primary" onClick = {() => placeABet(match.id, match.team2)}>{match.team2}</Button>
+                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime() ? placeABet(match.id, match.team2):  setInvalidTimeOpen(true)}>{match.team2}</Button>
                   </div>
                 ) )}
               </Paper>
@@ -311,6 +332,9 @@ function placeABet(matchId, placedOn) {
       </Snackbar>
       <Snackbar open={open} autoHideDuration={800} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error">There was an error</Alert>
+      </Snackbar>
+      <Snackbar open={invalidTime} autoHideDuration={2000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity="error">You are trying to place a bet in a window during which placing a bet is disabled</Alert>
       </Snackbar>
     </div>
   );
