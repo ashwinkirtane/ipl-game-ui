@@ -42,7 +42,7 @@ function Copyright() {
 function getCurrentDate(){
   const separator='-';
   let newDate = new Date()
-  let date = newDate.getDate();
+  let date = '0' + newDate.getDate(); //temp fix
   let month = newDate.getMonth() + 1;
   let year = newDate.getFullYear();
   
