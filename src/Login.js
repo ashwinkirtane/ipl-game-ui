@@ -71,7 +71,7 @@ export default function SignInSide() {
   }; 
 
   const validateLogin = () => {
-      fetch(`http://localhost:8090/cb-ipl/login/${username}/${password}`, {
+      fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/login/${username}/${password}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache' // *default, no-cache, reload, force-cache, only-if-cached
     }).then((response) => {

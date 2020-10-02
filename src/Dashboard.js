@@ -23,7 +23,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import {Bar} from 'react-chartjs-2';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -43,26 +42,16 @@ function Copyright() {
 function getCurrentDate(){
   const separator='-';
   let newDate = new Date()
-  let date = '0' + newDate.getDate(); //temp fix
+  let date = newDate.getDate(); 
+  if (date.toString().length === 1) {
+    date =  '0' + date;
+  }
   let month = newDate.getMonth() + 1;
   let year = newDate.getFullYear();
   
   return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date}`
   }
 
-  const state = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
-    datasets: [
-      {
-        label: 'Rainfall',
-        backgroundColor: 'rgba(75,192,192,1)',
-        borderColor: 'rgba(0,0,0,1)',
-        borderWidth: 2,
-        data: [65, 59, 80, 81, 56]
-      }
-    ]
-  }
     
 const drawerWidth = 240;
 
@@ -158,7 +147,7 @@ export default function Dashboard() {
   const [ranks, setRanks] = React.useState([]);
   React.useEffect(() => {
     const getTopRankers = () => {
-        fetch('http://localhost:8090/cb-ipl/getRank', {
+        fetch('https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/getRank', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         json: true
@@ -176,8 +165,7 @@ export default function Dashboard() {
   React.useEffect(() => {
   const getTodaysMatch = () => {
       const todaysdate = getCurrentDate();
-      
-      fetch(`http://localhost:8090/cb-ipl/match/date/${todaysdate}`, {
+      fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/match/date/${todaysdate}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       json: true
@@ -194,7 +182,7 @@ const [userInfo, setUserInfo] = React.useState([]);
 const [fullTeamName, setFullTeamName] = React.useState('');
 React.useEffect(() => {
 const getUserInfo = () => {
-    fetch(`http://localhost:8090/cb-ipl/${sessionStorage.username}`, {
+    fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/${sessionStorage.username}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     json: true
@@ -224,12 +212,36 @@ function getCurrentTime(){
     const separator=':';
     let newDate = new Date()
     let hrs = newDate.getHours().toString();
+    if (hrs.length === 1) {
+      hrs = '0' + hrs;
+    }
     let mins = newDate.getMinutes().toString();
+    if (mins.length === 1) {
+      mins = '0' + hrs;
+    }
     let secs = newDate.getSeconds().toString();
+    if (secs.length === 1) {
+      secs = '0' + hrs;
+    }
     return hrs+separator+mins+separator+secs;
     }
 
-    function isValidBettingTime() {
+    function isValidBettingTime(matchNumber) {
+      debugger;
+      if (matchNumber == 1) {
+        if (getCurrentTime() > '15:30:00' && getCurrentTime() < '23:59:59') {
+          return false;
+        }
+        return true;
+      }
+      if (matchNumber == 2) {
+        if (getCurrentTime() > '18:59:00' && getCurrentTime() < '23:59:59') {
+          return false;
+        }
+        return true;
+      }
+      
+      
       if (getCurrentTime()> '18:45:00' && getCurrentTime() < '23:59:59') {
         setInvalidTimeOpen(true);
         return false;
@@ -240,7 +252,7 @@ function getCurrentTime(){
 
 function placeABet(matchId, placedOn) {
    
-    fetch(`http://localhost:8090/cb-ipl/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
+    fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //mode: 'no-cors',
@@ -268,6 +280,7 @@ function placeABet(matchId, placedOn) {
 
   const currentDate = getCurrentDate();
 
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -289,35 +302,15 @@ function placeABet(matchId, placedOn) {
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={12} lg={12}>
-              
-            <Paper className={classes.paper}>
-            <div>
-                <Bar
-                  data={state}
-                  options={{
-                    title:{
-                      display:true,
-                      text:'Average Rainfall per month',
-                      fontSize:20
-                    },
-                    legend:{
-                      display:true,
-                      position:'right'
-                    }
-                  }}
-                />
-            </div>
-            </Paper>
-
-              
+           
               
               <Paper className={classes.paper}>
                 {/* <Chart /> */}    
                 {matches.map((match) => (
                     <div className={classes.buttonClass}>
-                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime() ? placeABet(match.id, match.team1) : setInvalidTimeOpen(true)}>{match.team1}</Button>
+                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team1) : setInvalidTimeOpen(true)}>{match.team1}</Button>
                     <span>vs</span> 
-                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime() ? placeABet(match.id, match.team2):  setInvalidTimeOpen(true)}>{match.team2}</Button>
+                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team2):  setInvalidTimeOpen(true)}>{match.team2}</Button>
                   </div>
                 ) )}
               </Paper>
