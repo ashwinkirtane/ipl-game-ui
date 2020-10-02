@@ -23,6 +23,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {Bar} from 'react-chartjs-2';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -49,9 +50,20 @@ function getCurrentDate(){
   return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date}`
   }
 
-  
-
-
+  const state = {
+    labels: ['January', 'February', 'March',
+             'April', 'May'],
+    datasets: [
+      {
+        label: 'Rainfall',
+        backgroundColor: 'rgba(75,192,192,1)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 2,
+        data: [65, 59, 80, 81, 56]
+      }
+    ]
+  }
+    
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -146,7 +158,7 @@ export default function Dashboard() {
   const [ranks, setRanks] = React.useState([]);
   React.useEffect(() => {
     const getTopRankers = () => {
-        fetch('https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/getRank', {
+        fetch('http://localhost:8090/cb-ipl/getRank', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         json: true
@@ -165,7 +177,7 @@ export default function Dashboard() {
   const getTodaysMatch = () => {
       const todaysdate = getCurrentDate();
       
-      fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/match/date/${todaysdate}`, {
+      fetch(`http://localhost:8090/cb-ipl/match/date/${todaysdate}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       json: true
@@ -182,7 +194,7 @@ const [userInfo, setUserInfo] = React.useState([]);
 const [fullTeamName, setFullTeamName] = React.useState('');
 React.useEffect(() => {
 const getUserInfo = () => {
-    fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/${sessionStorage.username}`, {
+    fetch(`http://localhost:8090/cb-ipl/${sessionStorage.username}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     json: true
@@ -228,7 +240,7 @@ function getCurrentTime(){
 
 function placeABet(matchId, placedOn) {
    
-    fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
+    fetch(`http://localhost:8090/cb-ipl/bets/${userInfo[0].id}/${matchId}/${userInfo[0].username}/${placedOn}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //mode: 'no-cors',
@@ -277,6 +289,28 @@ function placeABet(matchId, placedOn) {
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={12} lg={12}>
+              
+            <Paper className={classes.paper}>
+            <div>
+                <Bar
+                  data={state}
+                  options={{
+                    title:{
+                      display:true,
+                      text:'Average Rainfall per month',
+                      fontSize:20
+                    },
+                    legend:{
+                      display:true,
+                      position:'right'
+                    }
+                  }}
+                />
+            </div>
+            </Paper>
+
+              
+              
               <Paper className={classes.paper}>
                 {/* <Chart /> */}    
                 {matches.map((match) => (
