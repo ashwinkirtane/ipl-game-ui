@@ -313,8 +313,6 @@ function placeABet(matchId, placedOn) {
                     <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team2):  setInvalidTimeOpen(true)}>{match.team2}</Button>
                   </div>
                 ) )}
-               <br></br> 
-               <h><center><b>Note:</b> Maintainer of the website decided to sleep early so points of <b><u>KKR vs DC</u></b> will be updated on Sunday morning &#128564;</center></h>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
