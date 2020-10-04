@@ -177,7 +177,6 @@ const [matches, setMatches] = React.useState([]);
       const stat = await getStatsForMatch(parsedJson.matches[i].id);
       //debugger;
       x.push({...parsedJson.matches[i],stat})
-      console.log('x{}', x);
     }
     setMatches(x);
 
