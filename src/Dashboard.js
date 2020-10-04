@@ -161,7 +161,7 @@ export default function Dashboard() {
 }, [])
   
 
-  const [matches, setMatches] = React.useState([]);
+const [matches, setMatches] = React.useState([]);
   React.useEffect(() => {
   const getTodaysMatch = () => {
       const todaysdate = getCurrentDate();
@@ -171,8 +171,16 @@ export default function Dashboard() {
       json: true
   }).then(function(response) {
       return response.json();
-  }).then(function(parsedJson) { 
-    setMatches(parsedJson.matches);
+  }).then(async function(parsedJson) { 
+    const x = [];
+    for(let i=0; i<parsedJson.matches.length; i++) {
+      const stat = await getStatsForMatch(parsedJson.matches[i].id);
+      //debugger;
+      x.push({...parsedJson.matches[i],stat})
+      console.log('x{}', x);
+    }
+    setMatches(x);
+
   }); 
   }
   getTodaysMatch();
@@ -224,30 +232,30 @@ function getCurrentTime(){
       secs = '0' + hrs;
     }
     return hrs+separator+mins+separator+secs;
-    }
+}
 
-    function isValidBettingTime(matchNumber) {
-      debugger;
-      if (matchNumber == 1) {
-        if (getCurrentTime() > '15:00:00' && getCurrentTime() < '23:59:59') {
-          return false;
-        }
-        return true;
-      }
-      if (matchNumber == 2) {
-        if (getCurrentTime() > '18:59:00' && getCurrentTime() < '23:59:59') {
-          return false;
-        }
-        return true;
-      }
-      
-      
-      if (getCurrentTime()> '18:45:00' && getCurrentTime() < '23:59:59') {
-        setInvalidTimeOpen(true);
-        return false;
-      }
-      return true;
+
+function isValidBettingTime(matchNumber) {
+  if (matchNumber == 1) {
+    if (getCurrentTime() > '15:00:00' && getCurrentTime() < '23:59:59') {
+      return false;
     }
+    return true;
+  }
+  if (matchNumber == 2) {
+    if (getCurrentTime() > '18:59:00' && getCurrentTime() < '23:59:59') {
+      return false;
+    }
+    return true;
+  }
+
+      
+  if (getCurrentTime()> '18:45:00' && getCurrentTime() < '23:59:59') {
+    setInvalidTimeOpen(true);
+    return false;
+  }
+  return true;
+}
 
 
 function placeABet(matchId, placedOn) {
@@ -267,6 +275,18 @@ function placeABet(matchId, placedOn) {
   })
 }
 
+const [stats, setStats] = React.useState({});
+
+async function getStatsForMatch (matchId) {
+  const matchStats = await fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/bet/stats/${matchId}`, {
+  method: 'GET', // *GET, POST, PUT, DELETE, etc.
+  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  json: true
+}) 
+return matchStats.json();
+}
+  
+
   const classes = useStyles();
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -279,8 +299,6 @@ function placeABet(matchId, placedOn) {
   };
 
   const currentDate = getCurrentDate();
-
-  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -314,6 +332,18 @@ function placeABet(matchId, placedOn) {
                   </div>
                 ) )}
               </Paper>
+
+              <Paper className={classes.paper}>
+                {/* <Chart /> */}    
+                <h2><b><center>जनता का मिजाज</center></b></h2>
+                {matches.map((match) => (
+                    <div>
+                    <h><b><center>{match.team1} = {match.stat[match.team1]}%, {match.team2} = {match.stat[match.team2]}%</center></b></h>
+                    <br></br>
+                    </div>
+                ) )}
+              </Paper>
+
             </Grid>
             {/* Recent Deposits */}
             
