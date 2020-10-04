@@ -305,7 +305,7 @@ return matchStats.json();
         <Toolbar className={classes.toolbar}>
 
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-           Welcome, {userInfo.length && userInfo[0].fullName}! Your home team is {userInfo.length && userInfo[0].homeTeamCode}
+           Welcome {userInfo.length && userInfo[0].fullName}! Your home team is {userInfo.length && userInfo[0].homeTeamCode}
           </Typography>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}  align="right">
            Your Points: {userInfo.length && userInfo[0].totalPoints}
