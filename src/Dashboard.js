@@ -229,7 +229,7 @@ function getCurrentTime(){
     function isValidBettingTime(matchNumber) {
       debugger;
       if (matchNumber == 1) {
-        if (getCurrentTime() > '15:30:00' && getCurrentTime() < '23:59:59') {
+        if (getCurrentTime() > '15:00:00' && getCurrentTime() < '23:59:59') {
           return false;
         }
         return true;
