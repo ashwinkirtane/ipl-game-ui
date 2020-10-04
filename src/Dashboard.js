@@ -334,7 +334,7 @@ return matchStats.json();
 
               <Paper className={classes.paper}>
                 {/* <Chart /> */}    
-                <h2><b><center>जनता का मिजाज</center></b></h2>
+                <h2><b><center>जनता का मिज़ाज़</center></b></h2>
                 {matches.map((match) => (
                     <div>
                     <h><b><center>{match.team1} = {match.stat[match.team1]}%, {match.team2} = {match.stat[match.team2]}%</center></b></h>
