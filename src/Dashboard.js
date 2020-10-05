@@ -330,6 +330,8 @@ return matchStats.json();
                     <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team2):  setInvalidTimeOpen(true)}>{match.team2}</Button>
                   </div>
                 ) )}
+                <br></br>
+                    <h3 style={{ color: 'red' }}><center>NO HOME TEAM CONSTRAINT! Place your bet on any team <u>even if your home team is playing</u></center></h3>
               </Paper>
 
               <Paper className={classes.paper}>
