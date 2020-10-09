@@ -23,6 +23,18 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Icon from '@material-ui/core/Icon';
+import SaveIcon from '@material-ui/icons/Save';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -133,6 +145,9 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  matchesTable:{
+    paddingBottom: '50px'
+  },
   buttonClass: {
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -159,7 +174,7 @@ export default function Dashboard() {
     }
     getTopRankers();
 }, [])
-  
+
 
 const [matches, setMatches] = React.useState([]);
   React.useEffect(() => {
@@ -274,6 +289,23 @@ function placeABet(matchId, placedOn) {
   })
 }
 
+function betOtherDetails(matchId) {
+  
+  fetch(`https://ipl-backend-service-dot-ipl-deployment.et.r.appspot.com/cb-ipl/bet/match-details/${matchId}/${userInfo[0].id}?toss=${tossValue[matchId] || ''}&batsman=${batsman[matchId] || ''}&bowler=${bowler[matchId] || ''}`, {
+  method: 'GET', // *GET, POST, PUT, DELETE, etc.
+  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  //mode: 'no-cors',
+}).then((response) => {
+  if (response.status!==200) {
+    setOpen(true)
+  }
+  else{
+    setSuccessOpen(true)
+  }
+
+})
+}
+
 const [stats, setStats] = React.useState({});
 
 async function getStatsForMatch (matchId) {
@@ -286,18 +318,224 @@ return matchStats.json();
 }
   
 
-  const classes = useStyles();
-  
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+const batsmen = [
+  { name: 'Virat Kohli', team: 'RCB' },
+  { name: 'AB de Villiers', team: 'RCB' },
+  { name: 'Devdutt Padikkal', team: 'RCB' },
+  { name: 'Aaron Finch', team: 'RCB' },
+  { name: 'Shivam Dube', team: 'RCB' },
+  { name: 'Moeen Ali', team: 'RCB' },
 
-  
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  { name: 'Rohit Sharma', team: 'MI' },
+  { name: 'Sherfane Rutherford', team: 'MI' },
+  { name: 'Suryakumar Yadav', team: 'MI' },
+  { name: 'Chris Lynn', team: 'MI' },
+  { name: 'Saurabh Tiwary', team: 'MI' },
+  { name: 'Aditya Tare', team: 'MI' },
+  { name: 'Ishan Kishan', team: 'MI' },
+  { name: 'Quinton de Kock', team: 'MI' },
+  { name: 'Hardik Pandya', team: 'MI' },
+  { name: 'Kieron Pollard', team: 'MI' },
+  { name: 'Krunal Pandya', team: 'MI' },
 
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
+  { name: 'Ambati Rayudu', team: 'CSK' },
+  { name: 'Murali Vijay', team: 'CSK' },
+  { name: 'MS Dhoni', team: 'CSK' },
+  { name: 'Dwayne Bravo', team: 'CSK' },
+  { name: 'Faf du Plessis', team: 'CSK' },
+  { name: 'Kedar Jadhav', team: 'CSK' },
+  { name: 'Ravindra jadeja', team: 'CSK' },
+  { name: 'Shane Watson', team: 'CSK' },
+  { name: 'Sam Curran', team: 'CSK' },
+  
+  { name: 'Shreyas Iyer', team: 'DC' },
+  { name: 'Ajinkya Rahane', team: 'DC' },
+  { name: 'Prithvi Shaw', team: 'DC' },
+  { name: 'Shikhar Dhawan', team: 'DC' },
+  { name: 'Shimron Hetmyer', team: 'DC' },
+  { name: 'Rishabh Pant', team: 'DC' },
+  { name: 'Marcus Stoinis', team: 'DC' },
+
+  { name: 'Karun Nair', team: 'KXIP' },
+  { name: 'Chris Gayle', team: 'KXIP' },
+  { name: 'Mayank Agarwal', team: 'KXIP' },
+  { name: 'Nicholas Pooran', team: 'KXIP' },
+  { name: 'Sarfaraz Khan', team: 'KXIP' },
+  { name: 'KL Rahul', team: 'KXIP' },
+  { name: 'Glenn Maxwell', team: 'KXIP' },
+
+  { name: 'Andre Russell', team: 'KKR' },
+  { name: 'Kamlesh Nagarkoti', team: 'KKR' },
+  { name: 'Lockie Ferguson', team: 'KKR' },
+  { name: 'Nitish Rana', team: 'KKR' },
+  { name: 'Shubham Gill', team: 'KKR' },
+  { name: 'Siddhesh Lad', team: 'KKR' },
+  { name: 'Eoin Morgan', team: 'KKR' },
+  { name: 'Dinesh Karthik', team: 'KKR' },
+  { name: 'Sunil Narine', team: 'KKR' },
+ 
+  { name: 'Riyan Parag', team: 'RR' },
+  { name: 'Steve Smith', team: 'RR' },
+  { name: 'Robin Uthappa', team: 'RR' },
+  { name: 'David Miller', team: 'RR' },
+  { name: 'Jos Butler', team: 'RR' },
+  { name: 'Sanju Samson', team: 'RR' },
+  { name: 'Ben Stokes', team: 'RR' },
+  { name: 'Mahipal Lomror', team: 'RR' },
+  { name: 'Yashasvi Jaiswal', team: 'RR' },
+  { name: 'Tom Curran', team: 'RR' },
+  { name: 'Rahul Tewatia', team: 'RR' },
+
+  { name: 'Kane Williamson', team: 'SRH' },
+  { name: 'Abhishek Sharma', team: 'SRH' },
+  { name: 'David Warner', team: 'SRH' },
+  { name: 'Manish Pandey', team: 'SRH' },
+  { name: 'Priyam Garg', team: 'SRH' },
+  { name: 'Jonny Bairstow', team: 'SRH' },
+  { name: 'Vijay Shankar', team: 'SRH' },
+];
+
+const bowlers = [
+  { name: 'Shivam Dube', team: 'RCB' },
+  { name: 'Moeen Ali', team: 'RCB' },
+  { name: 'Isuru Udana', team: 'RCB' },
+  { name: 'Adam Zampa', team: 'RCB' },
+  { name: 'Dale Steyn', team: 'RCB' },
+  { name: 'Mohammed Siraj', team: 'RCB' },
+  { name: 'Navdeep Saini', team: 'RCB' },
+  { name: 'Umesh Yadav', team: 'RCB' },
+  { name: 'Washington Sundar', team: 'RCB' },
+  { name: 'Yuzvendra Chahal', team: 'RCB' },
+
+  { name: 'Hardik Pandya', team: 'MI' },
+  { name: 'Kieron Pollard', team: 'MI' },
+  { name: 'Krunal Pandya', team: 'MI' },
+  { name: 'Rahul Chahar', team: 'MI' },
+  { name: 'Jasprit Bumrah', team: 'MI' },
+  { name: 'James Pattinson', team: 'MI' },
+  { name: 'Mitchell McClenaghan', team: 'MI' },
+  { name: 'Trent Boult', team: 'MI' },
+  { name: 'Nathan Coulter-Nile', team: 'MI' },
+
+  { name: 'Dwayne Bravo', team: 'CSK' },
+  { name: 'Karn Sharma', team: 'CSK' },
+  { name: 'Kedar Jadhav', team: 'CSK' },
+  { name: 'Ravindra jadeja', team: 'CSK' },
+  { name: 'Shane Watson', team: 'CSK' },
+  { name: 'Sam Curran', team: 'CSK' },
+  { name: 'Deepak Chahar', team: 'CSK' },
+  { name: 'Imran Tahir', team: 'CSK' },
+  { name: 'Lungisani Ngidi', team: 'CSK' },
+  { name: 'Mitchell Santner', team: 'CSK' },
+  { name: 'Shardul Thakur', team: 'CSK' },
+  { name: 'Piyush Chawla', team: 'CSK' },
+  { name: 'Josh Hazlewood', team: 'CSK' },
+  
+  { name: 'Marcus Stoinis', team: 'DC' },
+  { name: 'Anrich Nortje', team: 'DC' },
+  { name: 'Avesh Khan', team: 'DC' },
+  { name: 'Ravichandran Ashwin', team: 'DC' },
+  { name: 'Sandeep Lamichhane', team: 'DC' },
+  { name: 'Axar Patel', team: 'DC' },
+  { name: 'Harshal Patel', team: 'DC' },
+  { name: 'Ishant Sharma', team: 'DC' },
+  { name: 'Kagiso Rabada', team: 'DC' },
+  { name: 'Mohit Sharma', team: 'DC' },
+  { name: 'Amit Mishra', team: 'DC' },
+
+  { name: 'Mandeep Singh', team: 'KXIP' },
+  { name: 'Glenn Maxwell', team: 'KXIP' },
+  { name: 'Chris Jordan', team: 'KXIP' },
+  { name: 'Deepak Hooda', team: 'KXIP' },
+  { name: 'James Neesham', team: 'KXIP' },
+  { name: 'Mohammad Shami', team: 'KXIP' },
+  { name: 'Ravi Bishnoi', team: 'KXIP' },
+  { name: 'Sheldon Cottrell', team: 'KXIP' },
+  { name: 'Murugan Ashwin', team: 'KXIP' },
+  { name: 'Mujeeb Ur Rahman', team: 'KXIP' },
+
+  { name: 'Andre Russell', team: 'KKR' },
+  { name: 'Sunil Narine', team: 'KKR' },
+  { name: 'Pat Cummins', team: 'KKR' },
+  { name: 'Shivam Mavi', team: 'KKR' },
+  { name: 'Varun Chakaravarthy', team: 'KKR' },
+  { name: 'Chris Green', team: 'KKR' },
+  { name: 'Kuldeep Yadav', team: 'KKR' },
+  { name: 'Sandeep Warrier', team: 'KKR' },
+  { name: 'M Siddharth', team: 'KKR' },
+ 
+  { name: 'Ben Stokes', team: 'RR' },
+  { name: 'Mahipal Lomror', team: 'RR' },
+  { name: 'Shreyas Gopal', team: 'RR' },
+  { name: 'Tom Curran', team: 'RR' },
+  { name: 'Jofra Archer', team: 'RR' },
+  { name: 'Mayank Markande', team: 'RR' },
+  { name: 'Rahul Tewatia', team: 'RR' },
+  { name: 'Varun Aaron', team: 'RR' },
+  { name: 'Jaydev Unadkat', team: 'RR' },
+  { name: 'Kartik Tyagi', team: 'RR' },
+  { name: 'Andrew Tye', team: 'RR' },
+  { name: 'Oshane Thomas', team: 'RR' },
+  { name: 'Akash Singh', team: 'RR' },
+
+  { name: 'Kane Williamson', team: 'SRH' },
+  { name: 'Vijay Shankar', team: 'SRH' },
+  { name: 'Mitchell Marsh', team: 'SRH' },
+  { name: 'Mohammad Nabi', team: 'SRH' },
+  { name: 'Basil Thampi', team: 'SRH' },
+  { name: 'Rashid Khan', team: 'SRH' },
+  { name: 'Sandeep Sharma', team: 'SRH' },
+  { name: 'Shahbaz Nadeem', team: 'SRH' },
+  { name: 'Siddarth Kaul', team: 'SRH' },
+  { name: 'T Natarajan', team: 'SRH' },
+];
+
+const options = batsmen.map((option) => {
+  const team = option.team;
+  return {
+    ...option,
   };
+});
 
-  const currentDate = getCurrentDate();
+const bowlerOptions = bowlers.map((bowler) => {
+  const team = bowler.team;
+  return {
+    ...bowler,
+  };
+});
+
+const classes = useStyles();
+
+const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+
+const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+const handleListItemClick = (event, index) => {
+  setSelectedIndex(index);
+};
+
+const [tossValue, setTossValue] = React.useState({});
+const [batsman, setBatsman] = React.useState({});
+const [bowler, setBowler] = React.useState({});
+
+const handleTossChange = (event,id) => {
+  setTossValue({...tossValue,[id]:event.target.value});
+};
+
+const handleBatsmanChange = (value,id) => {
+  setBatsman({...batsman,[id]:value.name});
+};
+
+const handleBowlerChange = (value,id) => {
+  setBowler({...bowler,[id]:value.name});
+};
+
+
+
+
+
+const currentDate = getCurrentDate();
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -316,7 +554,7 @@ return matchStats.json();
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} >
             {/* Chart */}
             <Grid item xs={12} md={12} lg={12}>
            
@@ -324,16 +562,74 @@ return matchStats.json();
               <Paper className={classes.paper}>
                 {/* <Chart /> */}    
                 {matches.map((match) => (
+                    <div className={classes.matchesTable}>
+
                     <div className={classes.buttonClass}>
-                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team1) : setInvalidTimeOpen(true)}>{match.team1}</Button>
-                    <span>vs</span> 
-                    <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team2):  setInvalidTimeOpen(true)}>{match.team2}</Button>
-                  </div>
+                      <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team1) : setInvalidTimeOpen(true)}>{match.team1}</Button>
+                      <span>vs</span> 
+                      <Button variant="contained" color="primary" onClick = {() => isValidBettingTime(match.game) ? placeABet(match.id, match.team2):  setInvalidTimeOpen(true)}>{match.team2}</Button>
+                    </div>
+                    
+                    <Paper className={classes.paper}>
+                    <Grid container spacing={3} justify="center">
+                        <Grid item container justify="center" xs={12} md={3} lg={3}>
+                     
+                     <FormControl component="fieldset">
+                        <FormLabel component="legend">Toss</FormLabel>
+                        <RadioGroup aria-label="TOSS" name="Toss" value={tossValue[match.id]} onChange={(event) => handleTossChange(event,match.id)} defaultChecked >
+                          <FormControlLabel value={match.team1} control={<Radio />} label={match.team1}  />
+                          <FormControlLabel value={match.team2} control={<Radio />} label={match.team2} />
+                        </RadioGroup>
+                    </FormControl>
+                        </Grid>
+                        <Grid item container justify="center" alignItems="center" xs={12} md={3} lg={3}> 
+                    <Autocomplete
+                      id="grouped-demo"
+                      options={options.sort((a, b) => -b.team.localeCompare(a.team))}
+                      groupBy={(option) => option.team}
+                      getOptionLabel={(option) => option.name}
+                      style={{ width: 300 }}
+                      renderInput={(params) => <TextField {...params} label="Batsmen" variant="outlined" />}
+                      onChange={(event, newValue) => {
+                        handleBatsmanChange(newValue,match.id);
+                      }}
+                    /> 
+                        </Grid>           
+                        <Grid item container justify="center" alignItems="center" xs={12} md={3} lg={3}>
+                    <Autocomplete
+                      id="grouped-demo"
+                      options={bowlerOptions.sort((a, b) => -b.team.localeCompare(a.team))}
+                      groupBy={(bowler) => bowler.team}
+                      getOptionLabel={(bowler) => bowler.name}
+                      style={{ width: 300 }}
+                      renderInput={(params) => <TextField {...params} label="Bowlers" variant="outlined" />}
+                      onChange={(event, newValue) => {
+                        handleBowlerChange(newValue,match.id);
+                      }}
+                    /> 
+                      </Grid>
+                      <Grid item container justify="center" alignItems="center" xs={12} md={3} lg={3}>
+                     <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      className={classes.button}
+                      style={{ height: 56 }}
+                      startIcon={<SaveIcon />}
+                      onClick={() => isValidBettingTime(match.game) ? betOtherDetails(match.id) : setInvalidTimeOpen(true)}                     
+                    >
+                     Save my bet
+                    </Button>
+                    </Grid>
+                    </Grid>
+                    </Paper>
+                    </div>
+
+
                 ) )}
                 <br></br>
                     <h3 style={{ color: 'red' }}><center>NO HOME TEAM CONSTRAINT! Place your bet on any team <u>even if your home team is playing</u></center></h3>
-              </Paper>
-
+              </Paper>   
               <Paper className={classes.paper}>
                 {/* <Chart /> */}    
                 <h2><b><center>जनता का मिज़ाज़</center></b></h2>
