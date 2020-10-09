@@ -627,8 +627,6 @@ const currentDate = getCurrentDate();
 
 
                 ) )}
-                <br></br>
-                    <h3 style={{ color: 'red' }}><center>NO HOME TEAM CONSTRAINT! Place your bet on any team <u>even if your home team is playing</u></center></h3>
               </Paper>   
               <Paper className={classes.paper}>
                 {/* <Chart /> */}    
