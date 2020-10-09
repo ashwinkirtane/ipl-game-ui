@@ -589,7 +589,7 @@ const currentDate = getCurrentDate();
                       groupBy={(option) => option.team}
                       getOptionLabel={(option) => option.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Batsmen" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Maximum Runs" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBatsmanChange(newValue,match.id);
                       }}
@@ -602,7 +602,7 @@ const currentDate = getCurrentDate();
                       groupBy={(bowler) => bowler.team}
                       getOptionLabel={(bowler) => bowler.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Bowlers" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Maximum Wickets" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBowlerChange(newValue,match.id);
                       }}
