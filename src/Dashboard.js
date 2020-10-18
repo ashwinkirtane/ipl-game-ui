@@ -325,6 +325,7 @@ const batsmen = [
   { name: 'Aaron Finch', team: 'RCB' },
   { name: 'Shivam Dube', team: 'RCB' },
   { name: 'Moeen Ali', team: 'RCB' },
+  { name: 'Chris Morris', team: 'RCB' },
 
   { name: 'Rohit Sharma', team: 'MI' },
   { name: 'Sherfane Rutherford', team: 'MI' },
@@ -406,6 +407,7 @@ const bowlers = [
   { name: 'Umesh Yadav', team: 'RCB' },
   { name: 'Washington Sundar', team: 'RCB' },
   { name: 'Yuzvendra Chahal', team: 'RCB' },
+  { name: 'Chris Morris', team: 'RCB' },
 
   { name: 'Hardik Pandya', team: 'MI' },
   { name: 'Kieron Pollard', team: 'MI' },
@@ -453,6 +455,7 @@ const bowlers = [
   { name: 'Sheldon Cottrell', team: 'KXIP' },
   { name: 'Murugan Ashwin', team: 'KXIP' },
   { name: 'Mujeeb Ur Rahman', team: 'KXIP' },
+  { name: 'Arshdeep Singh', team: 'KXIP' },
 
   { name: 'Andre Russell', team: 'KKR' },
   { name: 'Sunil Narine', team: 'KKR' },
