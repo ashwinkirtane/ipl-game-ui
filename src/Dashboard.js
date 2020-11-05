@@ -319,178 +319,25 @@ return matchStats.json();
   
 
 const batsmen = [
-  { name: 'Virat Kohli', team: 'RCB' },
-  { name: 'AB de Villiers', team: 'RCB' },
-  { name: 'Devdutt Padikkal', team: 'RCB' },
-  { name: 'Aaron Finch', team: 'RCB' },
-  { name: 'Shivam Dube', team: 'RCB' },
-  { name: 'Moeen Ali', team: 'RCB' },
-  { name: 'Chris Morris', team: 'RCB' },
-
-  { name: 'Rohit Sharma', team: 'MI' },
-  { name: 'Sherfane Rutherford', team: 'MI' },
-  { name: 'Suryakumar Yadav', team: 'MI' },
-  { name: 'Chris Lynn', team: 'MI' },
-  { name: 'Saurabh Tiwary', team: 'MI' },
-  { name: 'Aditya Tare', team: 'MI' },
-  { name: 'Ishan Kishan', team: 'MI' },
-  { name: 'Quinton de Kock', team: 'MI' },
-  { name: 'Hardik Pandya', team: 'MI' },
-  { name: 'Kieron Pollard', team: 'MI' },
-  { name: 'Krunal Pandya', team: 'MI' },
-
-  { name: 'Ambati Rayudu', team: 'CSK' },
-  { name: 'Murali Vijay', team: 'CSK' },
-  { name: 'MS Dhoni', team: 'CSK' },
-  { name: 'Dwayne Bravo', team: 'CSK' },
-  { name: 'Faf du Plessis', team: 'CSK' },
-  { name: 'Kedar Jadhav', team: 'CSK' },
-  { name: 'Ravindra jadeja', team: 'CSK' },
-  { name: 'Shane Watson', team: 'CSK' },
-  { name: 'Sam Curran', team: 'CSK' },
-  
-  { name: 'Shreyas Iyer', team: 'DC' },
-  { name: 'Ajinkya Rahane', team: 'DC' },
-  { name: 'Prithvi Shaw', team: 'DC' },
-  { name: 'Shikhar Dhawan', team: 'DC' },
-  { name: 'Shimron Hetmyer', team: 'DC' },
-  { name: 'Rishabh Pant', team: 'DC' },
-  { name: 'Marcus Stoinis', team: 'DC' },
-
-  { name: 'Karun Nair', team: 'KXIP' },
-  { name: 'Chris Gayle', team: 'KXIP' },
-  { name: 'Mayank Agarwal', team: 'KXIP' },
-  { name: 'Nicholas Pooran', team: 'KXIP' },
-  { name: 'Sarfaraz Khan', team: 'KXIP' },
-  { name: 'KL Rahul', team: 'KXIP' },
-  { name: 'Glenn Maxwell', team: 'KXIP' },
-
-  { name: 'Andre Russell', team: 'KKR' },
-  { name: 'Kamlesh Nagarkoti', team: 'KKR' },
-  { name: 'Lockie Ferguson', team: 'KKR' },
-  { name: 'Nitish Rana', team: 'KKR' },
-  { name: 'Shubham Gill', team: 'KKR' },
-  { name: 'Siddhesh Lad', team: 'KKR' },
-  { name: 'Eoin Morgan', team: 'KKR' },
-  { name: 'Dinesh Karthik', team: 'KKR' },
-  { name: 'Sunil Narine', team: 'KKR' },
- 
-  { name: 'Riyan Parag', team: 'RR' },
-  { name: 'Steve Smith', team: 'RR' },
-  { name: 'Robin Uthappa', team: 'RR' },
-  { name: 'David Miller', team: 'RR' },
-  { name: 'Jos Butler', team: 'RR' },
-  { name: 'Sanju Samson', team: 'RR' },
-  { name: 'Ben Stokes', team: 'RR' },
-  { name: 'Mahipal Lomror', team: 'RR' },
-  { name: 'Yashasvi Jaiswal', team: 'RR' },
-  { name: 'Tom Curran', team: 'RR' },
-  { name: 'Rahul Tewatia', team: 'RR' },
-
-  { name: 'Kane Williamson', team: 'SRH' },
-  { name: 'Abhishek Sharma', team: 'SRH' },
-  { name: 'David Warner', team: 'SRH' },
-  { name: 'Manish Pandey', team: 'SRH' },
-  { name: 'Priyam Garg', team: 'SRH' },
-  { name: 'Jonny Bairstow', team: 'SRH' },
-  { name: 'Vijay Shankar', team: 'SRH' },
+  { name: 'Less than 100', team: 'Runs' },
+  { name: '100-120', team: 'Runs' },
+  { name: '120-140', team: 'Runs' },
+  { name: '140-160', team: 'Runs' },
+  { name: '160-180', team: 'Runs' },
+  { name: '180-200', team: 'Runs' },
+  { name: '200-210', team: 'Runs' },
+  { name: 'Greater than 210', team: 'Runs' }
 ];
 
 const bowlers = [
-  { name: 'Shivam Dube', team: 'RCB' },
-  { name: 'Moeen Ali', team: 'RCB' },
-  { name: 'Isuru Udana', team: 'RCB' },
-  { name: 'Adam Zampa', team: 'RCB' },
-  { name: 'Dale Steyn', team: 'RCB' },
-  { name: 'Mohammed Siraj', team: 'RCB' },
-  { name: 'Navdeep Saini', team: 'RCB' },
-  { name: 'Umesh Yadav', team: 'RCB' },
-  { name: 'Washington Sundar', team: 'RCB' },
-  { name: 'Yuzvendra Chahal', team: 'RCB' },
-  { name: 'Chris Morris', team: 'RCB' },
-
-  { name: 'Hardik Pandya', team: 'MI' },
-  { name: 'Kieron Pollard', team: 'MI' },
-  { name: 'Krunal Pandya', team: 'MI' },
-  { name: 'Rahul Chahar', team: 'MI' },
-  { name: 'Jasprit Bumrah', team: 'MI' },
-  { name: 'James Pattinson', team: 'MI' },
-  { name: 'Mitchell McClenaghan', team: 'MI' },
-  { name: 'Trent Boult', team: 'MI' },
-  { name: 'Nathan Coulter-Nile', team: 'MI' },
-
-  { name: 'Dwayne Bravo', team: 'CSK' },
-  { name: 'Karn Sharma', team: 'CSK' },
-  { name: 'Kedar Jadhav', team: 'CSK' },
-  { name: 'Ravindra jadeja', team: 'CSK' },
-  { name: 'Shane Watson', team: 'CSK' },
-  { name: 'Sam Curran', team: 'CSK' },
-  { name: 'Deepak Chahar', team: 'CSK' },
-  { name: 'Imran Tahir', team: 'CSK' },
-  { name: 'Lungisani Ngidi', team: 'CSK' },
-  { name: 'Mitchell Santner', team: 'CSK' },
-  { name: 'Shardul Thakur', team: 'CSK' },
-  { name: 'Piyush Chawla', team: 'CSK' },
-  { name: 'Josh Hazlewood', team: 'CSK' },
-  
-  { name: 'Marcus Stoinis', team: 'DC' },
-  { name: 'Anrich Nortje', team: 'DC' },
-  { name: 'Avesh Khan', team: 'DC' },
-  { name: 'Ravichandran Ashwin', team: 'DC' },
-  { name: 'Sandeep Lamichhane', team: 'DC' },
-  { name: 'Axar Patel', team: 'DC' },
-  { name: 'Harshal Patel', team: 'DC' },
-  { name: 'Ishant Sharma', team: 'DC' },
-  { name: 'Kagiso Rabada', team: 'DC' },
-  { name: 'Mohit Sharma', team: 'DC' },
-  { name: 'Amit Mishra', team: 'DC' },
-
-  { name: 'Mandeep Singh', team: 'KXIP' },
-  { name: 'Glenn Maxwell', team: 'KXIP' },
-  { name: 'Chris Jordan', team: 'KXIP' },
-  { name: 'Deepak Hooda', team: 'KXIP' },
-  { name: 'James Neesham', team: 'KXIP' },
-  { name: 'Mohammad Shami', team: 'KXIP' },
-  { name: 'Ravi Bishnoi', team: 'KXIP' },
-  { name: 'Sheldon Cottrell', team: 'KXIP' },
-  { name: 'Murugan Ashwin', team: 'KXIP' },
-  { name: 'Mujeeb Ur Rahman', team: 'KXIP' },
-  { name: 'Arshdeep Singh', team: 'KXIP' },
-
-  { name: 'Andre Russell', team: 'KKR' },
-  { name: 'Sunil Narine', team: 'KKR' },
-  { name: 'Pat Cummins', team: 'KKR' },
-  { name: 'Shivam Mavi', team: 'KKR' },
-  { name: 'Varun Chakaravarthy', team: 'KKR' },
-  { name: 'Chris Green', team: 'KKR' },
-  { name: 'Kuldeep Yadav', team: 'KKR' },
-  { name: 'Sandeep Warrier', team: 'KKR' },
-  { name: 'M Siddharth', team: 'KKR' },
- 
-  { name: 'Ben Stokes', team: 'RR' },
-  { name: 'Mahipal Lomror', team: 'RR' },
-  { name: 'Shreyas Gopal', team: 'RR' },
-  { name: 'Tom Curran', team: 'RR' },
-  { name: 'Jofra Archer', team: 'RR' },
-  { name: 'Mayank Markande', team: 'RR' },
-  { name: 'Rahul Tewatia', team: 'RR' },
-  { name: 'Varun Aaron', team: 'RR' },
-  { name: 'Jaydev Unadkat', team: 'RR' },
-  { name: 'Kartik Tyagi', team: 'RR' },
-  { name: 'Andrew Tye', team: 'RR' },
-  { name: 'Oshane Thomas', team: 'RR' },
-  { name: 'Akash Singh', team: 'RR' },
-
-  { name: 'Kane Williamson', team: 'SRH' },
-  { name: 'Vijay Shankar', team: 'SRH' },
-  { name: 'Mitchell Marsh', team: 'SRH' },
-  { name: 'Mohammad Nabi', team: 'SRH' },
-  { name: 'Basil Thampi', team: 'SRH' },
-  { name: 'Rashid Khan', team: 'SRH' },
-  { name: 'Sandeep Sharma', team: 'SRH' },
-  { name: 'Shahbaz Nadeem', team: 'SRH' },
-  { name: 'Siddarth Kaul', team: 'SRH' },
-  { name: 'T Natarajan', team: 'SRH' },
+  { name: 'Less than 100', team: 'Runs' },
+  { name: '100-120', team: 'Runs' },
+  { name: '120-140', team: 'Runs' },
+  { name: '140-160', team: 'Runs' },
+  { name: '160-180', team: 'Runs' },
+  { name: '180-200', team: 'Runs' },
+  { name: '200-210', team: 'Runs' },
+  { name: 'Greater than 210', team: 'Runs' }
 ];
 
 const options = batsmen.map((option) => {
@@ -578,10 +425,10 @@ const currentDate = getCurrentDate();
                         <Grid item container justify="center" xs={12} md={3} lg={3}>
                      
                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Toss</FormLabel>
-                        <RadioGroup aria-label="TOSS" name="Toss" value={tossValue[match.id]} onChange={(event) => handleTossChange(event,match.id)} defaultChecked >
-                          <FormControlLabel value={match.team1} control={<Radio />} label={match.team1}  />
-                          <FormControlLabel value={match.team2} control={<Radio />} label={match.team2} />
+                        <FormLabel component="legend">Increase my stakes</FormLabel>
+                        <RadioGroup aria-label="Stakes" name="Stakes" value={tossValue[match.id]} onChange={(event) => handleTossChange(event,match.id)} defaultChecked >
+                          <FormControlLabel value='2' control={<Radio />} label='Double it!'  />
+                          <FormControlLabel value='3' control={<Radio />} label='Triple it!' />
                         </RadioGroup>
                     </FormControl>
                         </Grid>
@@ -592,7 +439,7 @@ const currentDate = getCurrentDate();
                       groupBy={(option) => option.team}
                       getOptionLabel={(option) => option.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Maximum Runs" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Delhi Score" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBatsmanChange(newValue,match.id);
                       }}
@@ -605,7 +452,7 @@ const currentDate = getCurrentDate();
                       groupBy={(bowler) => bowler.team}
                       getOptionLabel={(bowler) => bowler.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Maximum Wickets" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Mumbai Score" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBowlerChange(newValue,match.id);
                       }}
