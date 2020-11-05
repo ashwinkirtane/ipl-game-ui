@@ -321,22 +321,22 @@ return matchStats.json();
 const batsmen = [
   { name: 'Less than 100', team: 'Runs' },
   { name: '100-120', team: 'Runs' },
-  { name: '120-140', team: 'Runs' },
-  { name: '140-160', team: 'Runs' },
-  { name: '160-180', team: 'Runs' },
-  { name: '180-200', team: 'Runs' },
-  { name: '200-210', team: 'Runs' },
+  { name: '121-140', team: 'Runs' },
+  { name: '141-160', team: 'Runs' },
+  { name: '161-180', team: 'Runs' },
+  { name: '181-200', team: 'Runs' },
+  { name: '201-210', team: 'Runs' },
   { name: 'Greater than 210', team: 'Runs' }
 ];
 
 const bowlers = [
   { name: 'Less than 100', team: 'Runs' },
   { name: '100-120', team: 'Runs' },
-  { name: '120-140', team: 'Runs' },
-  { name: '140-160', team: 'Runs' },
-  { name: '160-180', team: 'Runs' },
-  { name: '180-200', team: 'Runs' },
-  { name: '200-210', team: 'Runs' },
+  { name: '121-140', team: 'Runs' },
+  { name: '141-160', team: 'Runs' },
+  { name: '161-180', team: 'Runs' },
+  { name: '181-200', team: 'Runs' },
+  { name: '201-210', team: 'Runs' },
   { name: 'Greater than 210', team: 'Runs' }
 ];
 
@@ -439,7 +439,7 @@ const currentDate = getCurrentDate();
                       groupBy={(option) => option.team}
                       getOptionLabel={(option) => option.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Delhi Score" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Hyderabad Score" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBatsmanChange(newValue,match.id);
                       }}
@@ -452,7 +452,7 @@ const currentDate = getCurrentDate();
                       groupBy={(bowler) => bowler.team}
                       getOptionLabel={(bowler) => bowler.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Mumbai Score" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Bengaluru Score" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBowlerChange(newValue,match.id);
                       }}
