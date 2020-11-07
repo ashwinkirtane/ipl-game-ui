@@ -452,7 +452,7 @@ const currentDate = getCurrentDate();
                       groupBy={(bowler) => bowler.team}
                       getOptionLabel={(bowler) => bowler.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Bengaluru Score" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Delhi Score" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBowlerChange(newValue,match.id);
                       }}
