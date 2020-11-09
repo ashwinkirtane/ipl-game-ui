@@ -439,7 +439,7 @@ const currentDate = getCurrentDate();
                       groupBy={(option) => option.team}
                       getOptionLabel={(option) => option.name}
                       style={{ width: 300 }}
-                      renderInput={(params) => <TextField {...params} label="Hyderabad Score" variant="outlined" />}
+                      renderInput={(params) => <TextField {...params} label="Mumbai Score" variant="outlined" />}
                       onChange={(event, newValue) => {
                         handleBatsmanChange(newValue,match.id);
                       }}
